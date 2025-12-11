@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacunadores del Gol | Trofeo Rector E.U.E. Huesca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Paleta de colores basada en los escudos: Azul marino, Azul claro, Blanco */
+        :root {
+            --color-primary: #1F3044; /* Azul Marino */
+            --color-secondary: #4A81A8; /* Azul Claro */
+            --color-light: #F8F9FA; /* Blanco/Gris Claro */
+            --color-dark: #343A40; /* Gris Oscuro */
+            --color-success: #28A745;
+            --color-warning: #FFC107;
+            --font-family: 'Arial', sans-serif;
+            --border-radius: 8px;
+            --padding-base: 15px;
+        }
+
+        /* Estilos para el Modo Oscuro */
+        body.dark-mode {
+            background-color: var(--color-dark);
+            color: var(--color-light);
+        }
+        body.dark-mode .header, body.dark-mode .sidebar {
+            background-color: #2C3E50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        body.dark-mode .card, body.dark-mode .match-detail {
+            background-color: #3B4B5E;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        body.dark-mode a {
+            color: var(--color-secondary);
+        }
+        body.dark-mode .nav-link:hover {
+            background-color: #4A5F75;
+        }
+        body.dark-mode .btn, body.dark-mode .filter-group button {
+            background-color: var(--color-secondary);
+            color: var(--color-dark);
+        }
+        body.dark-mode .btn-secondary {
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            border: 1px solid var(--color-secondary);
+        }
+        body.dark-mode .next-match-countdown {
+            background-color: var(--color-primary);
+        }
+        body.dark-mode .calendar-day.has-match {
+            background-color: #4A5F75;
+            border: 1px solid var(--color-secondary);
+        }
+
+        /* Estilos Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-light);
+            color: var(--color-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a {
+            text-decoration: none;
+            color: var(--color-primary);
+        }
+        header {
+            background-color: var(--color-primary);
+            color: var(--color-light);
+            padding: var(--padding-base);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--padding-base);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .main-content {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+        }
+        .dashboard-content {
+            flex-grow: 1;
+            padding: var(--padding-base);
+        }
+        .card {
+            background-color: #FFF;
+            padding: var(--padding-base);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        h2, h3 {
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        /* Dashboard */
+        .next-match-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+        .next-match-info h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        .next-match-countdown {
+            font-size: 1.5em;
+            font-weight: bold;
+            background-color: var(--color-light);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            color: var(--color-primary);
+        }
+        .social-links a {
+            font-size: 1.5em;
+            margin-right: 15px;
+            color: var(--color-secondary);
+        }
+        .social-links a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Navegación Lateral */
+        .sidebar {
+            width: 250px;
+            background-color: #FFF;
+            padding: var(--padding-base);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: var(--border-radius);
+            transition: background-color 0.2s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background-color: var(--color-secondary);
+            color: var(--color-light);
+        }
+        .nav-link.active i, .nav-link:hover i {
+            color: var(--color-light);
+        }
+
+        /* Botón de Modo Oscuro */
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: var(--color-light);
+        }
+        body.dark-mode .dark-mode-toggle {
+            color: var(--color-light);
+        }
+
+        /* Sección de Calendario */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            border: 1px solid #CCC;
+            background-color: #CCC;
+        }
+        .calendar-day-label, .calendar-day {
+            text-align: center;
+            padding: 10px 5px;
+            background-color: #FFF;
+            font-size: 0.9em;
+        }
+        .calendar-day-label {
+            font-weight: bold;
+            background-color: var(--color-secondary);
+            color: var(--color-light);
+        }
+        .calendar-day {
+            cursor: pointer;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            background-color: var(--color-light);
+        }
+        .calendar-day:hover {
+            background-color: #E9ECEF;
+        }
+        body.dark-mode .calendar-day {
+             background-color: #3B4B5E;
+        }
+        body.dark-mode .calendar-day:hover {
+            background-color: #4A5F75;
+        }
+        .day-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .match-indicator {
+            background-color: var(--color-success);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            margin-top: 3px;
+            display: block;
+        }
+        .calendar-day.not-current-month {
+            opacity: 0.5;
+        }
+        .calendar-view-toggle button {
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            background-color: var(--color-primary);
+            color: var(--color-light);
+            border-radius: var(--border-radius);
+            margin-left: 5px;
+        }
+        .calendar-view-toggle button.active {
+            background-color: var(--color-secondary);
+        }
+        .filter-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .filter-group button {
+            background-color: var(--color-light);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .filter-group button.active {
+            background-color: var(--color-primary);
+            color: var(--color-light);
+        }
+        .search-bar input {
+            padding: 8px;
+            border: 1px solid #CCC;
+            border-radius: var(--border-radius);
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        /* Vista de Detalle de Partido (Modal o similar) */
+        .match-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Se muestra con JS */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .match-detail-content {
+            background-color: var(--color-light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        body.dark-mode .match-detail-content {
+            background-color: #3B4B5E;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--color-primary);
+        }
+        body.dark-mode .close-btn {
+             color: var(--color-light);
+        }
+        .match-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .rival-logos {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .logo-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 3px solid var(--color-secondary);
+            padding: 5px;
+        }
+        .vs-text {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+        body.dark-mode .vs-text {
+            color: var(--color-light);
+        }
+        .match-info-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #EEE;
+            display: flex;
+            justify-content: space-between;
+        }
+        .match-info-row:last-child {
+            border-bottom: none;
+        }
+        .match-action-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-light);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-secondary);
+        }
+        .btn-secondary {
+            background-color: var(--color-light);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+        .btn-secondary:hover {
+            background-color: #EEE;
+        }
+
+        /* Sección de Equipos y Plantillas */
+        .team-section {
+            display: none; /* Se muestra con JS */
+        }
+        .team-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .team-card {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #EEE;
+        }
+        .team-card img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+        .roster-list {
+            list-style: none;
+            text-align: left;
+            padding: 0;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .roster-list li {
+            padding: 5px 0;
+            border-bottom: 1px dotted #EEE;
+        }
+        body.dark-mode .roster-list li {
+            border-bottom: 1px dotted #555;
+        }
+
+        /* Mapa (Simulación) */
+        .map-placeholder {
+            height: 300px;
+            background-color: #E0E0E0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-dark);
+            border-radius: var(--border-radius);
+        }
+        body.dark-mode .map-placeholder {
+            background-color: #4A5F75;
+            color: var(--color-light);
+        }
+
+        /* Media Queries para Responsividad */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .calendar-grid {
+                font-size: 0.8em;
+            }
+            .calendar-day {
+                min-height: 60px;
+            }
+            .next-match-highlight {
+                flex-direction: column;
+                text-align: center;
+            }
+            .next-match-countdown {
+                margin-top: 15px;
+            }
+            .header-content {
+                flex-direction: column;
+            }
+            .dark-mode-toggle {
+                position: static;
+                margin-top: 10px;
+            }
+        }
+        @media (max-width: 500px) {
+            .logo-container img {
+                width: 80px;
+                height: 80px;
+            }
+            .vs-text {
+                font-size: 1.5em;
+            }
+            .filter-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">VACUNADORES DEL GOL - E.U.E. HUESCA</div>
+            <i class="fas fa-moon dark-mode-toggle" onclick="toggleDarkMode()"></i>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <div class="sidebar">
+            <h3>Menú</h3>
+            <a href="#" class="nav-link active" data-section="dashboard"><i class="fas fa-home"></i> Inicio</a>
+            <a href="#" class="nav-link" data-section="calendar"><i class="fas fa-calendar-alt"></i> Calendario</a>
+            <hr>
+            <h3>Equipos</h3>
+            <a href="#" class="nav-link" data-section="equipo-futbol11"><i class="fas fa-futbol"></i> Fútbol 11 (M)</a>
+            <a href="#" class="nav-link" data-section="equipo-futsalm"><i class="fas fa-volleyball-ball"></i> Fútbol Sala (M)</a>
+            <a href="#" class="nav-link" data-section="equipo-futsalf"><i class="fas fa-volleyball-ball"></i> Fútbol Sala (F)</a>
+            <a href="#" class="nav-link" data-section="equipo-voleyf"><i class="fas fa-volleyball-ball"></i> Voley (F)</a>
+            <hr>
+            <h3>Más Info</h3>
+            <a href="#" class="nav-link" data-section="mapa"><i class="fas fa-map-marker-alt"></i> Instalaciones</a>
+        </div>
+
+        <div class="dashboard-content">
+            
+            <section id="dashboard" class="content-section">
+                <h2>🏆 Trofeo Rector 2024/2025</h2>
+
+                <div class="next-match-highlight">
+                    <div class="next-match-info">
+                        <h3>Próximo Partido</h3>
+                        <p id="next-match-details">Cargando...</p>
+                    </div>
+                    <div class="next-match-countdown" id="countdown-timer">
+                        -- DÍAS
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Redes Sociales</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/vacunadoresdelgol?igsh=MXhicmYwcnNsZjZkeg==" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@vacunadores.gol?_r=1&_t=ZN-926btqjV21u" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Resumen de Partidos</h3>
+                    <ul id="upcoming-matches-list">
+                        </ul>
+                </div>
+            </section>
+            
+            <section id="calendar" class="content-section" style="display:none;">
+                <h2>📅 Calendario de Partidos</h2>
+
+                <div class="filter-group" id="modality-filters">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="Fútbol 11 Masculino">Fútbol 11 (M)</button>
+                    <button class="filter-btn" data-filter="Fútbol Sala Masculino">Fútbol Sala (M)</button>
+                    <button class="filter-btn" data-filter="Fútbol Sala Femenino">Fútbol Sala (F)</button>
+                    <button class="filter-btn" data-filter="Voley Femenino">Voley (F)</button>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="calendar-search" placeholder="Buscar por rival, fecha o ubicación...">
+                </div>
+
+                <div class="card">
+                    <div class="calendar-header">
+                        <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="current-month-year">Mes Año</h3>
+                        <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <div class="calendar-day-label">Lun</div>
+                        <div class="calendar-day-label">Mar</div>
+                        <div class="calendar-day-label">Mié</div>
+                        <div class="calendar-day-label">Jue</div>
+                        <div class="calendar-day-label">Vie</div>
+                        <div class="calendar-day-label">Sáb</div>
+                        <div class="calendar-day-label">Dom</div>
+                        </div>
+
+                    <div class="calendar-view-toggle" style="margin-top: 15px; text-align: center;">
+                        <button class="active">Mensual</button>
+                        <button onclick="alert('Funcionalidad para vista Semanal (Simulación)')">Semanal</button>
+                        <button onclick="alert('Funcionalidad para vista Diaria (Simulación)')">Diaria</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="equipo-futbol11" class="content-section team-section">
+            </section>
+            <section id="equipo-futsalm" class="content-section team-section">
+            </section>
+            <section id="equipo-futsalf" class="content-section team-section">
+            </section>
+            <section id="equipo-voleyf" class="content-section team-section">
+            </section>
+            
+            <section id="mapa" class="content-section" style="display:none;">
+                <h2>📍 Mapa de Instalaciones</h2>
+                <div class="card">
+                    <p>Ubicaciones principales:</p>
+                    <ul>
+                        <li>**Campo de Fútbol:** Para Fútbol 11.</li>
+                        <li>**Pabellón Río Isuela:** Para Fútbol Sala y Voley.</li>
+                    </ul>
+                    <div class="map-placeholder">
+                        [SIMULACIÓN DE MAPA INTERACTIVO DE INSTALACIONES]
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <div id="match-detail-modal" class="match-detail">
+        <div class="match-detail-content">
+            <span class="close-btn" onclick="closeMatchDetail()">&times;</span>
+            <div class="match-header">
+                <h3 id="modal-match-modality"></h3>
+            </div>
+
+            <div class="rival-logos">
+                <div class="logo-container">
+                    <img id="modal-own-logo" src="img/VACUNADORES_DEL_GOL_BN.png" alt="Logo Propio">
+                    <p>E.U.E. Huesca</p>
+                </div>
+                <span class="vs-text">VS</span>
+                <div class="logo-container">
+                    <img id="modal-rival-logo" src="img/rival_default.png" alt="Logo Rival">
+                    <p id="modal-rival-name"></p>
+                </div>
+            </div>
+
+            <div class="match-info-row">
+                <strong><i class="fas fa-calendar-day"></i> Fecha:</strong>
+                <span id="modal-match-date"></span>
+            </div>
+            <div class="match-info-row">
+                <strong><i class="fas fa-clock"></i> Hora:</strong>
+                <span id="modal-match-time"></span>
+            </div>
+            <div class="match-info-row">
+                <strong><i class="fas fa-map-marker-alt"></i> Lugar:</strong>
+                <span id="modal-match-location"></span>
+            </div>
+            <div class="match-info-row">
+                <strong><i class="fas fa-flag"></i> Resultado:</strong>
+                <span id="modal-match-result">Pendiente</span>
+            </div>
+
+            <div class="match-action-buttons">
+                <button class="btn btn-primary" id="export-gcal"><i class="fab fa-google"></i> Google Calendar</button>
+                <button class="btn btn-secondary" onclick="alert('Recordatorio Activado (Simulación)')"><i class="fas fa-bell"></i> Activar Recordatorio</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 4. Funcionalidades Extra: Datos en JSON (Estructura Modular) ---
+
+        const TEAMS = {
+            'Fútbol 11 Masculino': {
+                name: 'Fútbol 11 Masculino',
+                escudo: 'img/VACUNADORES_DEL_GOL_FUTBOL.png', // Imagen adjunta 2
+                alt: 'Vacunadores del Gol - Fútbol 11',
+                roster: [
+                    'Carlos Abad', 'Antonio González', 'Mario Villegas', 'Arturo Vicente', 'Alejandro Ruiz',
+                    'Samuel Gómez', 'Marcos Villalba', 'Álvaro Maluenda', 'Axel Koné', 'Sergio Val',
+                    'Martín Marín', 'Adrián Torralba', 'Lorenzo Aso', 'Mario Torralba', 'Julián Crespo',
+                    'Nolan Padilla', 'Daniel Álvarez', 'Miguel Solano', 'Jorge Navarrete', 'Hugo Escudero'
+                ],
+                location: 'Campo de fútbol'
+            },
+            'Fútbol Sala Masculino': {
+                name: 'Fútbol Sala Masculino',
+                escudo: 'img/VACUNADORES_DEL_GOL.png', // Imagen adjunta 3
+                alt: 'Vacunadores del Gol - Fútbol Sala M',
+                roster: [
+                    'Arturo Vicente Ramón', 'Antonio González Perandones', 'Julián Crespo Sarvisé', 'Jorge Navarrete Martinez',
+                    'Alejandro Ruiz Meavilla', 'Mario Torralba Grúas', 'Samuel Gómez Polo', 'Marcos Villalba Embid',
+                    'Álvaro Maluenda Pozo', 'Sergio Val García', 'Mario Villegas Novales'
+                ],
+                location: 'Pabellón Río Isuela'
+            },
+            'Fútbol Sala Femenino': {
+                name: 'Fútbol Sala Femenino',
+                escudo: 'img/VACUNADORAS_DEL_GOL_2.png', // Imagen adjunta 1 (BN)
+                alt: 'Vacunadoras del Gol - Fútbol Sala F',
+                roster: [
+                    'Paula Mediano Martínez', 'Carolina Aparicio Fullola', 'Ane Etxeberria Astigarraga', 'Lorena García Javierre',
+                    'Aina Morales Balderas', 'Alba Castro Sanz', 'Andrea Arpal Obón', 'Daniela Mariana Pérez Sanz',
+                    'Claudia Mata Gimeno', 'Miriam Herrera Ramirez', 'Izarbe Ripoll Martínez', 'Ángela García Rech'
+                ],
+                location: 'Pabellón Río Isuela'
+            },
+            'Voley Femenino': {
+                name: 'Voley Femenino',
+                escudo: 'img/VACUNADORAS_DEL_REMATE.png', // Imagen adjunta 4
+                alt: 'Vacunadoras del Remate - Voley F',
+                roster: [
+                    'Lucía Vázquez Buey', 'Lucía Martín Arroyos', 'Mar Rubio Soria', 'Eva López Varas',
+                    'Ángela García Rech', 'Lucía Puyó Iguaz', 'Alba Marín Ester', 'Raquel Aguado Salas',
+                    'Ana Belén Pinasco Murillo', 'Vanessa Royo Lainez', 'Belén Sarasa Rived', 'Lidia Gracia de Mur'
+                ],
+                location: 'Pabellón Río Isuela'
+            }
+        };
+
+        // 2. CALENDARIO DE PARTIDOS (Datos con formato ISO para manejo en JS)
+        // La librería Date en JS interpreta los meses de 0 (Enero) a 11 (Diciembre)
+        const MATCHES_DATA = [
+            // Enero (Mes 0) - Las fechas en el prompt son de ejemplo, no del año actual
+            { modality: 'Fútbol Sala Masculino', date: '2025-01-20', time: '18:00', rival: 'Politécnica', location: TEAMS['Fútbol Sala Masculino'].location, result: null },
+            { modality: 'Voley Femenino', date: '2025-01-27', time: '19:15', rival: 'Politécnica', location: TEAMS['Voley Femenino'].location, result: null },
+            { modality: 'Fútbol Sala Femenino', date: '2025-01-28', time: '19:00', rival: 'CCAFD', location: TEAMS['Fútbol Sala Femenino'].location, result: null },
+            // Febrero (Mes 1)
+            { modality: 'Fútbol 11 Masculino', date: '2025-02-03', time: '14:00', rival: 'CMU Ramón Acín', location: TEAMS['Fútbol 11 Masculino'].location, result: null },
+            { modality: 'Voley Femenino', date: '2025-02-05', time: '19:00', rival: 'Odontología', location: TEAMS['Voley Femenino'].location, result: null },
+            { modality: 'Fútbol Sala Masculino', date: '2025-02-09', time: '15:00', rival: 'CMU Ramón Acín', location: TEAMS['Fútbol Sala Masculino'].location, result: null },
+            { modality: 'Fútbol 11 Masculino', date: '2025-02-10', time: '14:00', rival: 'Magisterio', location: TEAMS['Fútbol 11 Masculino'].location, result: null },
+            { modality: 'Fútbol 11 Masculino', date: '2025-02-17', time: '14:00', rival: 'Politécnica', location: TEAMS['Fútbol 11 Masculino'].location, result: null },
+            { modality: 'Fútbol Sala Femenino', date: '2025-02-17', time: '15:00', rival: 'CMU Ramón Acín', location: TEAMS['Fútbol Sala Femenino'].location, result: null },
+            { modality: 'Fútbol Sala Masculino', date: '2025-02-18', time: '18:00', rival: 'CCAFD', location: TEAMS['Fútbol Sala Masculino'].location, result: null },
+            { modality: 'Voley Femenino', date: '2025-02-19', time: '17:30', rival: 'CMU Ramón Acín', location: TEAMS['Voley Femenino'].location, result: null },
+            { modality: 'Fútbol Sala Femenino', date: '2025-02-25', time: '18:00', rival: 'Odontología', location: TEAMS['Fútbol Sala Femenino'].location, result: null },
+            { modality: 'Voley Femenino', date: '2025-02-26', time: '17:30', rival: 'Medicina', location: TEAMS['Voley Femenino'].location, result: null },
+            // Marzo (Mes 2)
+            { modality: 'Fútbol 11 Masculino', date: '2025-03-03', time: '14:00', rival: 'ADE', location: TEAMS['Fútbol 11 Masculino'].location, result: null },
+            { modality: 'Fútbol Sala Masculino', date: '2025-03-03', time: '18:00', rival: 'Nutrición', location: TEAMS['Fútbol Sala Masculino'].location, result: null },
+            { modality: 'Voley Femenino', date: '2025-03-05', time: '19:00', rival: 'CCAFD', location: TEAMS['Voley Femenino'].location, result: null },
+            { modality: 'Fútbol Sala Femenino', date: '2025-03-10', time: '18:00', rival: 'Magisterio', location: TEAMS['Fútbol Sala Femenino'].location, result: null },
+            { modality: 'Voley Femenino', date: '2025-03-12', time: '19:00', rival: 'Magisterio', location: TEAMS['Voley Femenino'].location, result: null },
+            { modality: 'Fútbol 11 Masculino', date: '2025-03-17', time: '14:00', rival: 'CCAFD', location: TEAMS['Fútbol 11 Masculino'].location, result: null },
+            { modality: 'Fútbol Sala Masculino', date: '2025-03-18', time: '19:00', rival: 'Odontología', location: TEAMS['Fútbol Sala Masculino'].location, result: null },
+            { modality: 'Fútbol Sala Femenino', date: '2025-03-25', time: '19:00', rival: 'Politécnica', location: TEAMS['Fútbol Sala Femenino'].location, result: null },
+            // Abril (Mes 3)
+            { modality: 'Fútbol Sala Masculino', date: '2025-04-08', time: '19:00', rival: 'Magisterio', location: TEAMS['Fútbol Sala Masculino'].location, result: null },
+        ];
+
+        // --- Lógica del Calendario y Dashboard ---
+
+        let currentActiveSection = 'dashboard';
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let currentFilter = 'all';
+
+        // Helper para obtener el nombre del mes
+        const MONTH_NAMES = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+
+        // --- Funciones de Utilidad ---
+
+        function formatDate(dateString) {
+            const date = new Date(dateString + 'T00:00:00'); // Añadir T00:00:00 para evitar problemas de zona horaria
+            return date.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function calculateDaysUntil(dateString, timeString) {
+            const matchDateTime = new Date(`${dateString}T${timeString}:00`);
+            const now = new Date();
+            const diffTime = matchDateTime.getTime() - now.getTime();
+            
+            if (diffTime < 0) return 'JUGADO';
+            
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays === 0 ? 'HOY' : `${diffDays} DÍA${diffDays !== 1 ? 'S' : ''}`;
+        }
+        
+        function getNextMatch() {
+            const now = new Date();
+            // Filtrar partidos futuros y ordenarlos
+            const upcomingMatches = MATCHES_DATA.filter(match => {
+                const matchDateTime = new Date(`${match.date}T${match.time}:00`);
+                return matchDateTime > now;
+            }).sort((a, b) => {
+                const dateA = new Date(`${a.date}T${a.time}:00`);
+                const dateB = new Date(`${b.date}T${b.time}:00`);
+                return dateA - dateB;
+            });
+            
+            return upcomingMatches[0] || null;
+        }
+
+        // --- 1A. Dashboard (Inicio) ---
+
+        function renderDashboard() {
+            const nextMatch = getNextMatch();
+            const detailsElement = document.getElementById('next-match-details');
+            const countdownElement = document.getElementById('countdown-timer');
+            const listElement = document.getElementById('upcoming-matches-list');
+
+            if (nextMatch) {
+                const daysUntil = calculateDaysUntil(nextMatch.date, nextMatch.time);
+                detailsElement.innerHTML = `
+                    **${nextMatch.modality}** vs **${nextMatch.rival}**<br>
+                    ${formatDate(nextMatch.date)} a las ${nextMatch.time} en ${nextMatch.location}
+                `;
+                countdownElement.textContent = daysUntil;
+            } else {
+                detailsElement.textContent = 'No hay partidos programados próximamente.';
+                countdownElement.textContent = 'FIN';
+            }
+
+            // Listar próximos 5 partidos
+            listElement.innerHTML = '';
+            MATCHES_DATA.filter(match => {
+                const matchDateTime = new Date(`${match.date}T${match.time}:00`);
+                return matchDateTime > new Date();
+            })
+            .sort((a, b) => new Date(`${a.date}T${a.time}:00`) - new Date(`${b.date}T${b.time}:00`))
+            .slice(0, 5)
+            .forEach(match => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <i class="fas fa-arrow-circle-right"></i>
+                    **${match.modality}** vs ${match.rival} | 
+                    ${formatDate(match.date).split(', ')[0]}, ${match.time}
+                    (<span style="font-weight: bold; color: var(--color-primary);">${calculateDaysUntil(match.date, match.time)}</span>)
+                    <button class="btn btn-secondary" style="float: right; padding: 3px 8px;" onclick="showMatchDetail('${match.date}', '${match.time}')">Detalles</button>
+                `;
+                listElement.appendChild(li);
+            });
+        }
+
+        // --- 1B. Calendario Interactivo ---
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const monthYearTitle = document.getElementById('current-month-year');
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            //getDay() devuelve 0 (Dom) a 6 (Sab). Necesitamos 0 (Lun) a 6 (Dom).
+            let startDay = firstDayOfMonth.getDay();
+            if (startDay === 0) startDay = 7; // Mueve Domingo (0) al final (7)
+            startDay = startDay - 1; // Ahora 0 es Lunes, 6 es Domingo.
+
+            monthYearTitle.textContent = `${MONTH_NAMES[currentMonth]} ${currentYear}`;
+            grid.innerHTML = `
+                <div class="calendar-day-label">Lun</div>
+                <div class="calendar-day-label">Mar</div>
+                <div class="calendar-day-label">Mié</div>
+                <div class="calendar-day-label">Jue</div>
+                <div class="calendar-day-label">Vie</div>
+                <div class="calendar-day-label">Sáb</div>
+                <div class="calendar-day-label">Dom</div>
+            `;
+
+            // Días del mes anterior (padding)
+            for (let i = 0; i < startDay; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('calendar-day', 'not-current-month');
+                grid.appendChild(dayDiv);
+            }
+
+            // Días del mes actual
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                
+                // Filtrar partidos para el día
+                const matchesOfTheDay = MATCHES_DATA.filter(match => 
+                    match.date === dateString && 
+                    (currentFilter === 'all' || match.modality === currentFilter)
+                );
+
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('calendar-day');
+                dayDiv.innerHTML = `<div class="day-number">${day}</div>`;
+
+                if (matchesOfTheDay.length > 0) {
+                    dayDiv.classList.add('has-match');
+                    matchesOfTheDay.forEach(match => {
+                        const indicator = document.createElement('span');
+                        indicator.classList.add('match-indicator');
+                        indicator.textContent = `${match.modality.split(' ')[0][0]}${match.modality.split(' ')[1][0]} vs ${match.rival}`;
+                        // Añadir evento al indicador para mostrar detalles
+                        indicator.onclick = (e) => {
+                            e.stopPropagation();
+                            showMatchDetail(match.date, match.time);
+                        };
+                        dayDiv.appendChild(indicator);
+                    });
+                }
+                
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        }
+
+        function setFilter(modality) {
+            currentFilter = modality;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.filter-btn[data-filter="${modality}"]`).classList.add('active');
+            renderCalendar();
+        }
+
+        // --- 1C. Ficha Detallada de Partido (Modal) ---
+
+        function showMatchDetail(date, time) {
+            const match = MATCHES_DATA.find(m => m.date === date && m.time === time);
+            if (!match) return;
+
+            const modal = document.getElementById('match-detail-modal');
+            const ownTeam = TEAMS[match.modality];
+
+            document.getElementById('modal-match-modality').textContent = match.modality;
+            document.getElementById('modal-own-logo').src = ownTeam.escudo;
+            document.getElementById('modal-rival-name').textContent = match.rival;
+            // No tenemos escudos de rivales, usamos un placeholder.
+            document.getElementById('modal-rival-logo').src = 'img/rival_default.png'; 
+            document.getElementById('modal-match-date').textContent = formatDate(match.date);
+            document.getElementById('modal-match-time').textContent = match.time;
+            document.getElementById('modal-match-location').textContent = match.location;
+            document.getElementById('modal-match-result').textContent = match.result || 'Pendiente';
+            
+            // Enlace de Google Calendar
+            const gcalLink = createGoogleCalendarLink(match);
+            document.getElementById('export-gcal').onclick = () => window.open(gcalLink, '_blank');
+
+            modal.style.display = 'flex';
+        }
+
+        function closeMatchDetail() {
+            document.getElementById('match-detail-modal').style.display = 'none';
+        }
+
+        function createGoogleCalendarLink(match) {
+            const dateStr = match.date.replace(/-/g, '');
+            const timeStr = match.time.replace(':', '') + '00';
+            const start = `${dateStr}T${timeStr}`;
+
+            // Asumimos que la duración es de 1 hora y 30 minutos (1h30m)
+            const endHour = parseInt(match.time.split(':')[0]) + 1;
+            const endMinute = parseInt(match.time.split(':')[1]) + 30;
+            const endTime = `${String(endHour).padStart(2, '0')}${String(endMinute).padStart(2, '0')}00`;
+            const end = `${dateStr}T${endTime}`;
+
+            const details = `Partido de ${match.modality} del Trofeo Rector. EUE Huesca vs ${match.rival}.`;
+            const location = match.location;
+            const text = `Partido: EUE Huesca vs ${match.rival} (${match.modality})`;
+
+            const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+            const params = new URLSearchParams({
+                text: text,
+                dates: `${start}/${end}`,
+                details: details,
+                location: location,
+                sf: 'true',
+                output: 'xml'
+            });
+
+            return `${baseUrl}&${params.toString()}`;
+        }
+
+        // --- 1D. Equipos y Plantillas ---
+        
+        function renderTeams() {
+            for (const key in TEAMS) {
+                const team = TEAMS[key];
+                const sectionId = `equipo-${key.toLowerCase().replace(/ /g, '').replace(/[áéíóúüñ]/g, char => {
+                    return { 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ñ': 'n' }[char] || char;
+                })}`;
+                
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const rosterHtml = team.roster.map(player => `<li>${player}</li>`).join('');
+                    
+                    section.innerHTML = `
+                        <h2>👥 ${team.name}</h2>
+                        <div class="team-cards">
+                            <div class="card team-card">
+                                <h3>Escudo</h3>
+                                <img src="${team.escudo}" alt="${team.alt}">
+                                <p>Año de fundación: **1.9.7.0.**</p>
+                                <p>Lugar de juego: **${team.location}**</p>
+                            </div>
+                            <div class="card team-card">
+                                <h3>Plantilla</h3>
+                                <ul class="roster-list">
+                                    ${rosterHtml}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // --- Lógica de Navegación y Control ---
+
+        function navigateTo(sectionId) {
+            currentActiveSection = sectionId;
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`.nav-link[data-section="${sectionId}"]`).classList.add('active');
+
+            // Acciones específicas de sección
+            if (sectionId === 'calendar') {
+                renderCalendar();
+            }
+        }
+
+        function setupNavigation() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateTo(link.getAttribute('data-section'));
+                });
+            });
+            
+            // Filtros de modalidad
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setFilter(btn.getAttribute('data-filter'));
+                });
+            });
+            
+            // Búsqueda (simple filtrado de calendario)
+            document.getElementById('calendar-search').addEventListener('keyup', (e) => {
+                const query = e.target.value.toLowerCase();
+                // En un entorno real, esto filtraría los eventos y repintaría el calendario/vista de lista
+                if (query.length > 2) {
+                    alert(`Simulación de búsqueda para "${query}". En una implementación real, esto filtraría los partidos.`);
+                }
+            });
+        }
+        
+        // --- Identidad Visual: Dark Mode ---
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            // Icono del toggle
+            const toggleIcon = document.querySelector('.dark-mode-toggle');
+            if (isDarkMode) {
+                toggleIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                toggleIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        function checkDarkModePreference() {
+            const savedMode = localStorage.getItem('darkMode');
+            if (savedMode === 'true') {
+                toggleDarkMode(); // Llama a toggle para aplicar el modo y actualizar el icono
+            } else if (savedMode === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                 toggleDarkMode(); // Aplica por defecto si el sistema es oscuro
+            }
+        }
+
+        // --- Inicialización ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Requisitos 3 y 4: Identidad Visual y Setup
+            checkDarkModePreference();
+            setupNavigation();
+            renderTeams();
+
+            // Requisito 1A: Dashboard
+            renderDashboard();
+
+            // Navegar a la sección inicial
+            navigateTo('dashboard');
+
+            // Para simular la carga de imágenes adjuntas (ya que no se pueden subir directamente al código)
+            // Se asume que las imágenes con los nombres especificados están en una carpeta 'img/'
+            // (VACUNADORAS DEL REMATE.png, VACUNADORAS DEL GOL (2).png, VACUNADORES DEL GOL.png, VACUNADORES DEL GOL (BN).png)
+        });
+
+    </script>
+</body>
+</html>
